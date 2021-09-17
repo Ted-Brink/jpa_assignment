@@ -11,11 +11,5 @@ public class RecipeInstruction {
     @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
     private String instructionId;
     private String instructions; // b. Contains recipe instructions of type String
-/*
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "recipe_id")
-    private Recipe recipe;
-*/
-
 
 }
