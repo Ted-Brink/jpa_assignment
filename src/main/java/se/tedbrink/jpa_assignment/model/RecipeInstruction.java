@@ -2,9 +2,7 @@ package se.tedbrink.jpa_assignment.model;
 
 import org.hibernate.annotations.GenericGenerator;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 public class RecipeInstruction {
@@ -13,7 +11,11 @@ public class RecipeInstruction {
     @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
     private String instructionId;
     private String instructions; // b. Contains recipe instructions of type String
-
+/*
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "recipe_id")
+    private Recipe recipe;
+*/
 
 
 }

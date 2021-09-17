@@ -12,7 +12,7 @@ public class Ingredient {
     @Column(unique = true)
     private String ingredient;
 
-    @ManyToOne(cascade = {
+   /* @ManyToOne(cascade = {  //// Ta bort /////////////////
             CascadeType.PERSIST,
             CascadeType.REFRESH,
             CascadeType.DETACH,
@@ -20,8 +20,8 @@ public class Ingredient {
             fetch = FetchType.EAGER)
     @JoinColumn(name = "rec_ing_id")
 
-    private RecipeIngredient recipeIngredient;
-
+    private RecipeIngredient recipeIngredient;        ///////////////////////
+*/
     public int getIngredientId() {
         return ingredientId;
     }

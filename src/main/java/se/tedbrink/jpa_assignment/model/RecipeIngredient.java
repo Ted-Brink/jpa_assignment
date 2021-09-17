@@ -10,14 +10,22 @@ public class RecipeIngredient {
     @GeneratedValue(generator = "UUID")
     @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
     private String recipeIngredientId;
-    //private Ingredient ingredient;   ////////////////////////////////////////////////////////
 
     // b. Contains a reference to Ingredient
      private double amount; // c. Contains a representation of a measured amount type double.
-    private Measurement unit; // d. Contains a Measurement that represent the unit.
+    private Measurement measurement; // d. Contains a Measurement that represent the unit.
     //  e. Contains a reference to the associated Recipe.
 
- /*   @ManyToOne(cascade = {    // Ta bort relation
+    @OneToOne(cascade = CascadeType.ALL)        // Kolla upp CasedType ////////
+    @JoinColumn(name = "ingredient_id")
+    private Ingredient ingredient;
+
+    @OneToOne(cascade = CascadeType.ALL)      // Kolla upp Cascade ///////////
+    @JoinColumn(name = "recipe_id")
+    private Recipe recipe;
+
+/*
+    @ManyToOne(cascade = {    // Ta bort relation
             CascadeType.PERSIST,
             CascadeType.REFRESH,
             CascadeType.DETACH,
@@ -25,11 +33,12 @@ public class RecipeIngredient {
             fetch = FetchType.EAGER)
     @JoinColumn(name = "recipe_id")
 
-    private Recipe recipe;
-
 
 */
-    //  none/many to one relation to Ingredient en viss ingrideiens kan finnas i många recept
+
+
+
+    //  none/many to one relation to Ingredient en viss ingrediens kan finnas i många recept
 
 
 }
