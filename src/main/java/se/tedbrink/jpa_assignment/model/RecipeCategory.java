@@ -3,6 +3,7 @@ package se.tedbrink.jpa_assignment.model;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 public class RecipeCategory {
@@ -30,8 +31,55 @@ public class RecipeCategory {
         this.category = category;
         this.receptlista = receptlista;
     }
-    public RecipeCategory(String category) {        // Vet inte om detta behövs
-        this(0,category, new ArrayList<>());
+//    public RecipeCategory(String category) {        // Vet inte om detta behövs    /////////////////////////////////////////
+//        this(0,category, new ArrayList<>());
+//    }
+
+
+    public int getCategoryId() {
+        return categoryId;
     }
 
+    public void setCategoryId(int categoryId) {
+        this.categoryId = categoryId;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
+    public List<Recipe> getReceptlista() {
+        return receptlista;
+    }
+
+    public void setReceptlista(List<Recipe> receptlista) {
+        this.receptlista = receptlista;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof RecipeCategory)) return false;
+        RecipeCategory that = (RecipeCategory) o;
+        return Objects.equals(getCategory(), that.getCategory()) && Objects.equals(getReceptlista(), that.getReceptlista());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getCategory(), getReceptlista());
+    }
+
+
+    @Override
+    public String toString() {
+        return "RecipeCategory{" +
+                "categoryId=" + categoryId +
+                ", category='" + category + '\'' +
+                ", receptlista=" + receptlista +
+                '}';
+    }
 }
