@@ -16,6 +16,13 @@ public class IngredientDAORepository implements IngredientDAO{
 
     @Override
     @Transactional
+    public Ingredient create(Ingredient ingredient) {
+        entityManager.persist(ingredient);
+        return  ingredient;
+    }
+
+    @Override
+    @Transactional
     public Ingredient findById(int id) {
         return entityManager.find(Ingredient.class, id);
     }
@@ -30,13 +37,6 @@ public class IngredientDAORepository implements IngredientDAO{
     @Transactional
     public Collection<Ingredient> findAll() {
         return entityManager.createQuery("SELECT ingr FROM Ingredient ingr", Ingredient.class).getResultList();
-    }
-
-    @Override
-    @Transactional
-    public Ingredient create(Ingredient ingredient) {
-        entityManager.persist(ingredient);
-        return  ingredient;
     }
 
     @Override
