@@ -1,7 +1,6 @@
 package se.tedbrink.jpa_assignment.model;
 
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -13,9 +12,8 @@ public class RecipeCategory {
     private String category;
 
 
-    @ManyToMany(cascade = {
-            CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE, CascadeType.DETACH},
-            fetch = FetchType.LAZY)
+    @ManyToMany(cascade = {CascadeType.REFRESH, CascadeType.DETACH}) //// Osäker på CascadeType och fetch
+
     @JoinTable( name = "recipe_recipe_category",
             joinColumns = @JoinColumn(name = "category_id"),
             inverseJoinColumns =  @JoinColumn(name = "recipe_id")
@@ -23,7 +21,7 @@ public class RecipeCategory {
     private  List<Recipe> receptlista;
 
 
-    public RecipeCategory() {           // Protected???
+    public RecipeCategory() {
     }
 
     public RecipeCategory(int categoryId, String category, List<Recipe> receptlista) {
@@ -38,10 +36,6 @@ public class RecipeCategory {
 
     public int getCategoryId() {
         return categoryId;
-    }
-
-    public void setCategoryId(int categoryId) {
-        this.categoryId = categoryId;
     }
 
     public String getCategory() {
@@ -65,14 +59,13 @@ public class RecipeCategory {
         if (this == o) return true;
         if (!(o instanceof RecipeCategory)) return false;
         RecipeCategory that = (RecipeCategory) o;
-        return Objects.equals(getCategory(), that.getCategory()) && Objects.equals(getReceptlista(), that.getReceptlista());
+        return getCategoryId() == that.getCategoryId() && Objects.equals(getCategory(), that.getCategory()) && Objects.equals(getReceptlista(), that.getReceptlista());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getCategory(), getReceptlista());
+        return Objects.hash(getCategoryId(), getCategory(), getReceptlista());
     }
-
 
     @Override
     public String toString() {

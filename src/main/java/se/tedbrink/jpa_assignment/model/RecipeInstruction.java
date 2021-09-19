@@ -11,7 +11,7 @@ public class RecipeInstruction {
     @GeneratedValue(generator = "UUID")
     @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
     private String instructionId;
-    private String instructions; // b. Contains recipe instructions of type String
+    private String instructions;
 
     public RecipeInstruction() {
     }

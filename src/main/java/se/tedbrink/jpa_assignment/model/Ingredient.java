@@ -12,16 +12,6 @@ public class Ingredient {
     @Column(unique = true)
     private String ingredient;
 
-   /* @ManyToOne(cascade = {  //// Ta bort /////////////////
-            CascadeType.PERSIST,
-            CascadeType.REFRESH,
-            CascadeType.DETACH,
-            CascadeType.MERGE},
-            fetch = FetchType.EAGER)
-    @JoinColumn(name = "rec_ing_id")
-
-    private RecipeIngredient recipeIngredient;        ///////////////////////
-*/
     public int getIngredientId() {
         return ingredientId;
     }
