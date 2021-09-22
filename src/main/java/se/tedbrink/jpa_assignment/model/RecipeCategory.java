@@ -12,22 +12,27 @@ public class RecipeCategory {
     private String category;
 
 
-    @ManyToMany(cascade = {CascadeType.REFRESH, CascadeType.DETACH}) //// Osäker på CascadeType och fetch
+    @ManyToMany(cascade = {CascadeType.REFRESH,
+            CascadeType.DETACH,
+            CascadeType.MERGE,
+            CascadeType.PERSIST}, //// Osäker på CascadeType och fetch
+            fetch = FetchType.LAZY)
 
-    @JoinTable( name = "recipe_recipe_category",
+    @JoinTable(name = "recipe_recipe_category",
             joinColumns = @JoinColumn(name = "category_id"),
-            inverseJoinColumns =  @JoinColumn(name = "recipe_id")
+           inverseJoinColumns =  @JoinColumn(name = "recipe_id")
     )
+
     private  List<Recipe> receptlista;
 
 
     public RecipeCategory() {
     }
 
-    public RecipeCategory(int categoryId, String category, List<Recipe> receptlista) {
+    public RecipeCategory(int categoryId, String category) {
         this.categoryId = categoryId;
         this.category = category;
-        this.receptlista = receptlista;
+
     }
 //    public RecipeCategory(String category) {        // Vet inte om detta behövs    /////////////////////////////////////////
 //        this(0,category, new ArrayList<>());

@@ -16,26 +16,27 @@ public class RecipeIngredient {
     private Measurement measurement;            // d. Contains a Measurement that represent the unit.
 
     // b. Contains a reference to Ingredient
-    @OneToOne(cascade = { CascadeType.DETACH, CascadeType.REFRESH})     // Kolla upp CascdeType ////////
-
-    @JoinColumn(name = "ingredient_id")
-    private Ingredient ingredient;
+    @ManyToOne(cascade = {                      // RELATION TILL INGREDIENT
+            CascadeType.DETACH,
+            CascadeType.REFRESH,
+            CascadeType.MERGE,
+            CascadeType.PERSIST})             // Kolla upp CascadeType fetchType.EAGER default////////
+            private Ingredient ingredient;
 
     //  e. Contains a reference to the associated Recipe.
-    @OneToOne(cascade = {CascadeType.DETACH, CascadeType.REFRESH})      // Kolla upp CascadeType ///////
-
-    @JoinColumn(name = "recipe_id")
+    @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.REFRESH},      // Kolla upp CascadeType ///////
+    fetch = FetchType.LAZY)
+    //@JoinColumn(name = "recipe_id", table = "recipe_ingredient")     // Ta bort///////////////////////////
     private Recipe recipe;
 
     public RecipeIngredient() {
     }
 
-    public RecipeIngredient(String recipeIngredientId, double amount, Measurement measurement, Ingredient ingredient, Recipe recipe) {
+    public RecipeIngredient(String recipeIngredientId, double amount, Measurement measurement, Ingredient ingredient) {
         this.recipeIngredientId = recipeIngredientId;
         this.amount = amount;
         this.measurement = measurement;
         this.ingredient = ingredient;
-        this.recipe = recipe;
     }
 
     public String getRecipeIngredientId() {
@@ -66,25 +67,17 @@ public class RecipeIngredient {
         this.ingredient = ingredient;
     }
 
-    public Recipe getRecipe() {
-        return recipe;
-    }
-
-    public void setRecipe(Recipe recipe) {
-        this.recipe = recipe;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof RecipeIngredient)) return false;
         RecipeIngredient that = (RecipeIngredient) o;
-        return Double.compare(that.getAmount(), getAmount()) == 0 && Objects.equals(getRecipeIngredientId(), that.getRecipeIngredientId()) && getMeasurement() == that.getMeasurement() && Objects.equals(getIngredient(), that.getIngredient()) && Objects.equals(getRecipe(), that.getRecipe());
+        return Double.compare(that.getAmount(), getAmount()) == 0 && getMeasurement() == that.getMeasurement() && Objects.equals(getIngredient(), that.getIngredient());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getRecipeIngredientId(), getAmount(), getMeasurement(), getIngredient(), getRecipe());
+        return Objects.hash(getAmount(), getMeasurement(), getIngredient());
     }
 
     @Override
@@ -94,7 +87,6 @@ public class RecipeIngredient {
                 ", amount=" + amount +
                 ", measurement=" + measurement +
                 ", ingredient=" + ingredient +
-                ", recipe=" + recipe +
                 '}';
     }
 }
