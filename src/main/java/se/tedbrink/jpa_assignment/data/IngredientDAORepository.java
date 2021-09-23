@@ -1,5 +1,6 @@
 package se.tedbrink.jpa_assignment.data;
 
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import se.tedbrink.jpa_assignment.model.Ingredient;
 
@@ -9,7 +10,7 @@ import javax.transaction.Transactional;
 import java.util.Collection;
 
 @Repository
-public class IngredientDAORepository implements IngredientDAO{
+public class IngredientDAORepository implements IngredientDAO {
 
     @PersistenceContext
     EntityManager entityManager;
@@ -18,7 +19,7 @@ public class IngredientDAORepository implements IngredientDAO{
     @Transactional
     public Ingredient create(Ingredient ingredient) {
         entityManager.persist(ingredient);
-        return  ingredient;
+        return ingredient;
     }
 
     @Override
@@ -27,11 +28,22 @@ public class IngredientDAORepository implements IngredientDAO{
         return entityManager.find(Ingredient.class, id);
     }
 
+    // @Override
+    //@Transactional
+    //public Ingredient findByIngredient(String ingredient) { ////////////////////////////////// FEEEEEEEEEEEL/////////////
+    // return entityManager.find(Ingredient.class, ingredient);
+
     @Override
     @Transactional
-    public Ingredient findByIngredient(String ingredient) {
-        return entityManager.find(Ingredient.class, ingredient);
+     public Collection<Ingredient>findByIngredient(String ingredient) {
+              return entityManager.createQuery("SELECT i from Ingredient i " +
+                      "WHERE i.ingredient LIKE CONCAT('%', :ingredient, '%')", Ingredient.class)
+                      .setParameter("ingredient", ingredient).getResultList();
     }
+           // throw new IllegalArgumentException("String ingredient = " + ingredient);
+//}           Query query = entityManager.createQuery("SELECT i from Ingredient i WHERE i.ingredient LIKE CONCAT('%', :ingredient, '%')", Ingredient.class)
+//                query.setParameter("ingredient", ingredient).getResultList();
+//    }
 
     @Override
     @Transactional

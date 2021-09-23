@@ -8,7 +8,7 @@ import java.util.Collection;
 public interface RecipeIngredientDAO {
 
     RecipeIngredient findById(String id);
-    RecipeIngredient findByRecipeIngredient(RecipeIngredient recipeIngredient);
+    Collection<RecipeIngredient> findByRecipeIngredient(RecipeIngredient recipeIngredient);
     Collection<RecipeIngredient> findAll();
     RecipeIngredient create(RecipeIngredient recipeIngredient);
     RecipeIngredient update(RecipeIngredient recipeIngredient);

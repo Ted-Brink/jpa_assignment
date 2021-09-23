@@ -8,7 +8,9 @@ public interface IngredientDAO {
 
     Ingredient create(Ingredient ingredient);
     Ingredient findById(int id);
-    Ingredient findByIngredient(String ingredient);
+    //Ingredient findByIngredient(String ingredient);
+
+    Collection<Ingredient>findByIngredient(String ingredient);        ////////// Funkar inte
     Collection<Ingredient> findAll();
     Ingredient update(Ingredient ingredient);
     void delete(int id);

@@ -22,8 +22,9 @@ public class RecipeIngredientDAORepository implements RecipeIngredientDAO{
 
     @Transactional
     @Override
-    public RecipeIngredient findByRecipeIngredient(RecipeIngredient recipeIngredient) {     //// Undra om det är rätt???????/////////
-        return entityManager.find(RecipeIngredient.class, recipeIngredient);
+    public Collection<RecipeIngredient> findByRecipeIngredient(RecipeIngredient recipeIngredient) {     //// Undra om det är rätt???????///////// FEEEEL
+        return entityManager.createQuery("SELECT r FROM RecipeIngredient r JOIN FETCH WHERE  r.ingredient LIKE CONCAT('%', :recipeIngredient, '%') ", RecipeIngredient.class)
+                .setParameter("recipeIngredient", recipeIngredient).getResultList();
     }
     @Transactional
     @Override
