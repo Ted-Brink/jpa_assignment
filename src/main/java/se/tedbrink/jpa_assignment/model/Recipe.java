@@ -2,8 +2,8 @@ package se.tedbrink.jpa_assignment.model;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
-import java.util.Objects;
 
 @Entity
 public class Recipe {
@@ -24,29 +24,45 @@ public class Recipe {
 
 
 
-    @OneToOne( cascade = CascadeType.ALL,         // Osäker på CascadeType/////
+    @OneToOne( cascade = CascadeType.ALL,
     fetch = FetchType.EAGER)
             @JoinColumn(name = "instruction_id")
     private RecipeInstruction recipeInstruction;
 
-    @ManyToMany(cascade = { CascadeType.REFRESH, CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST})   //Osäker på CascadeType //////
+    @ManyToMany(cascade = { CascadeType.REFRESH, CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST})
 
     @JoinTable(
             name = "recipe_recipe_category",
             joinColumns = @JoinColumn(name = "recipe_id"),
             inverseJoinColumns = @JoinColumn(name = "category_id")
     )
-    private List<RecipeCategory> recipeCategory;           ////////////////////// KOLLA UPP DENNA/////////////
+    private List<RecipeCategory> categories;
 
     public Recipe() {
     }
 
-    public Recipe(String recipeName, RecipeInstruction recipeInstruction, List<RecipeCategory> recipeCategory) {
+    public Recipe(String recipeName, RecipeInstruction recipeInstruction, List<RecipeCategory> categories) {
         this.recipeName = recipeName;
         this.recipeInstruction = recipeInstruction;
-        this.recipeCategory = recipeCategory;
+        this.categories = categories;
     }
 
+    //Convenience Method
+    public void addRecipeCategory(RecipeCategory recipeCategory) {
+
+        if (recipeCategory == null) throw new IllegalArgumentException("Not allowed to add null");
+        if (categories == null) categories = new ArrayList<>();
+
+        if (!categories.contains(recipeCategory)) {
+            categories.add(recipeCategory);
+        }
+    }
+
+    public void removeRecipeCategory(RecipeCategory recipeCategory) {
+        if(categories.contains(recipeCategory)) {
+            categories.remove(recipeCategory);
+        }
+    }
 
     public int getRecipeId() {
         return recipeId;

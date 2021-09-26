@@ -8,6 +8,8 @@ import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 import java.util.Collection;
 
+import static org.hibernate.hql.internal.antlr.SqlTokenTypes.WHERE;
+
 @Repository
 public class RecipeIngredientDAORepository implements RecipeIngredientDAO{
 
@@ -20,12 +22,38 @@ public class RecipeIngredientDAORepository implements RecipeIngredientDAO{
         return entityManager.find(RecipeIngredient.class, id);
     }
 
+//    @Transactional
+//    @Override
+//   public Collection<RecipeIngredient> findByRecipeIngredient(RecipeIngredient recipeIngredient) {
+//       return entityManager.createQuery("SELECT r FROM RecipeIngredient r JOIN FETCH WHERE  ingredient LIKE CONCAT('%', :recipeIngredient, '%') ", RecipeIngredient.class)
+//                .setParameter("recipeIngredient", recipeIngredient).getResultList();
+//    }
+
     @Transactional
     @Override
-    public Collection<RecipeIngredient> findByRecipeIngredient(RecipeIngredient recipeIngredient) {     //// Undra om det är rätt???????///////// FEEEEL
-        return entityManager.createQuery("SELECT r FROM RecipeIngredient r JOIN FETCH WHERE  r.ingredient LIKE CONCAT('%', :recipeIngredient, '%') ", RecipeIngredient.class)
+   public Collection<RecipeIngredient> findByRecipeIngredient(RecipeIngredient recipeIngredient) {
+       return entityManager.createQuery("SELECT ri FROM RecipeIngredient  ri WHERE  ri.ingredient.ingredient LIKE CONCAT('%', :recipeIngredient, '%') ", RecipeIngredient.class)
                 .setParameter("recipeIngredient", recipeIngredient).getResultList();
     }
+
+//
+//    @Transactional
+//    @Override
+//    public Collection<RecipeIngredient> findByRecipeIngredient(RecipeIngredient recipeIngredient) {
+//        return entityManager.createQuery("SELECT i, ri FROM Ingredient i JOIN   i.RecipeIngredient ri LIKE CONCAT('%', :recipeIngredient, '%') ", RecipeIngredient.class)
+//                .setParameter("recipeIngredient", recipeIngredient).getResultList();
+//    }
+
+
+    //   SELECT ingredient FROM ingredient JOIN ingredients  ON recipe_ingredients_id=ingredients_id WHERE ingredient = ?;
+
+//    @Transactional
+//    @Override
+//    public Collection<RecipeIngredient> findByRecipeIngredient(RecipeIngredient recipeIngredient) {
+//        return entityManager.createQuery("SELECT ingredient FROM ingredient  JOIN  ingredient ON recipe_ingredient  recipe_ingredient.recipe_ingredient_id=ingredient.ingredient_id WHERE ingredient LIKE CONCAT('%', :recipeIngredient, '%') ", RecipeIngredient.class)
+//                .setParameter("recipeIngredient", recipeIngredient).getResultList();
+//    }
+
     @Transactional
     @Override
     public Collection<RecipeIngredient> findAll() {

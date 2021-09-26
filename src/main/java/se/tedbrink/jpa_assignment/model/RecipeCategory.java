@@ -1,6 +1,7 @@
 package se.tedbrink.jpa_assignment.model;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -22,8 +23,7 @@ public class RecipeCategory {
             joinColumns = @JoinColumn(name = "category_id"),
            inverseJoinColumns =  @JoinColumn(name = "recipe_id")
     )
-
-    private  List<Recipe> receptlista;
+    private  List<Recipe> receptlista = new ArrayList<>();
 
 
     public RecipeCategory() {
@@ -34,9 +34,27 @@ public class RecipeCategory {
         this.category = category;
 
     }
-//    public RecipeCategory(String category) {        // Vet inte om detta behövs    /////////////////////////////////////////
-//        this(0,category, new ArrayList<>());
-//    }
+
+    //Convience Method
+    public  void addRecipe(Recipe recipe) {
+        if(!receptlista.contains(recipe)) {
+            receptlista.add(recipe);
+        }
+    }
+
+    public void removeRecipe(Recipe recipe) {
+        if(receptlista.contains(recipe)) {
+            receptlista.remove(recipe);
+        }
+    }
+
+
+
+
+
+
+
+
 
 
     public int getCategoryId() {

@@ -8,6 +8,7 @@ public interface RecipeDAO {
 
     Recipe create(Recipe recipe);
     Recipe findById(int id);
+    Recipe findByName(String recipeName);
     Collection<Recipe> findAll();
     Recipe update(Recipe recipe);
     void delete(int id);

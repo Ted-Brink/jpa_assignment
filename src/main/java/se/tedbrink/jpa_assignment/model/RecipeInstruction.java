@@ -1,6 +1,7 @@
 package se.tedbrink.jpa_assignment.model;
 
 import org.hibernate.annotations.GenericGenerator;
+import sun.security.util.Length;
 
 import javax.persistence.*;
 import java.util.Objects;
@@ -11,6 +12,7 @@ public class RecipeInstruction {
     @GeneratedValue(generator = "UUID")
     @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
     private String instructionId;
+    @Column(length=1500)
     private String instructions;
 
     public RecipeInstruction() {

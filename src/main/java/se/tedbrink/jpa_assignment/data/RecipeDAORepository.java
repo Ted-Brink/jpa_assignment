@@ -29,6 +29,12 @@ public class RecipeDAORepository implements RecipeDAO {
 
     @Override
     @Transactional
+    public Recipe findByName(String recipeName){
+        return null;
+    }
+
+    @Override
+    @Transactional
     public Collection<Recipe> findAll() {
         return entityManager.createQuery("SELECT rec FROM Recipe rec", Recipe.class).getResultList();
     }
