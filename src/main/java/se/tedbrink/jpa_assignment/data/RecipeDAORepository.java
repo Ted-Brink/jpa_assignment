@@ -1,6 +1,7 @@
 package se.tedbrink.jpa_assignment.data;
 
 import org.springframework.stereotype.Repository;
+import se.tedbrink.jpa_assignment.model.Ingredient;
 import se.tedbrink.jpa_assignment.model.Recipe;
 
 import javax.persistence.EntityManager;
@@ -27,11 +28,15 @@ public class RecipeDAORepository implements RecipeDAO {
         return entityManager.find(Recipe.class, id);
     }
 
+
     @Override
     @Transactional
-    public Recipe findByName(String recipeName){
-        return null;
-    }
+            public Collection<Recipe>findByName(String recipeName) {
+            return entityManager.createQuery("SELECT r from Recipe r " +
+                            "WHERE r.recipeName LIKE CONCAT('%', :recipe_name, '%')", Recipe.class)
+                            .setParameter("recipe_name", recipeName).getResultList();
+        }
+
 
     @Override
     @Transactional

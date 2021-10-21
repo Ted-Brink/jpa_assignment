@@ -28,10 +28,13 @@ public class IngredientDAORepository implements IngredientDAO {
         return entityManager.find(Ingredient.class, id);
     }
 
-    // @Override
-    //@Transactional
-    //public Ingredient findByIngredient(String ingredient) { ////////////////////////////////// FEEEEEEEEEEEL/////////////
-    // return entityManager.find(Ingredient.class, ingredient);
+
+
+    @Override
+    @Transactional
+    public Ingredient findBySpecificIngredient(String Ingredient) {
+        return entityManager.createQuery("SELECT i from Ingredient i WHERE i.ingredient = :ingredient",Ingredient.class).setParameter("ingredient",Ingredient).getResultStream().findFirst().get();
+    }
 
     @Override
     @Transactional
