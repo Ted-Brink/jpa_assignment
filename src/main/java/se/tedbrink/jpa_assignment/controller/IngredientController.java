@@ -41,22 +41,22 @@ public class IngredientController {
 
     /////READ
 
-    @GetMapping("/ingredients{id}")
-    public ResponseEntity<Ingredient> findById(@PathVariable("id") Integer ingredientId) {
-        Ingredient foundById = ingredientDao.findById(ingredientId);
-        return ResponseEntity.ok(foundById);
-    }
-
-//    @GetMapping ("/ingredients{id}")
+//    @GetMapping("/ingredients/{id}")
 //    public ResponseEntity<Ingredient> findById(@PathVariable("id") Integer ingredientId) {
-//        Optional<Ingredient> optional = Optional.ofNullable(ingredientDao.findById(ingredientId));
-//
-//        if (optional.isPresent()) {
-//            return ResponseEntity.ok(optional.get());
-//        } else {
-//            return ResponseEntity.notFound().build();
-//        }
+//        Ingredient foundById = ingredientDao.findById(ingredientId);
+//        return ResponseEntity.ok(foundById);
 //    }
+
+    @GetMapping ("/ingredients/{id}")
+    public ResponseEntity<Ingredient> findById(@PathVariable("id") Integer ingredientId) {
+        Optional<Ingredient> optional = Optional.ofNullable(ingredientDao.findById(ingredientId));
+
+        if (optional.isPresent()) {
+            return ResponseEntity.ok(optional.get());
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
 
 
 //    @GetMapping("/ingredients{id}")
@@ -75,8 +75,8 @@ public class IngredientController {
 //        return ResponseEntity.ok(foundBySpecificIngredient);
 //    }
 
-    @GetMapping("/ingredients{specificIngredient}")
-    public ResponseEntity<Ingredient> findBySpecificIngredient(@PathVariable("specificIngredient") String ingredient) {
+    @GetMapping("/ingredients/specificingredient")
+    public ResponseEntity<Ingredient> findBySpecificIngredient(@RequestParam("ingredient") String ingredient) {
         Ingredient foundBySpecificIngredient = ingredientDao.findBySpecificIngredient(ingredient);
         return ResponseEntity.ok(foundBySpecificIngredient);
     }
@@ -89,9 +89,9 @@ public class IngredientController {
         //return ResponseEntity.status(HttpStatus.OK).body(all); //fungerar men vet inte om det är rätt.
     }
 
-
+    // UPDATE
     //Ingredient update(Ingredient ingredient);
-    @PutMapping("ingredients{ingredient}")
+    @PutMapping("ingredients/{ingredient}")
     public ResponseEntity<Ingredient> update(@PathVariable("ingredient") @RequestBody Ingredient ingredient) {
         Ingredient updatedIngredient = ingredientDao.update(ingredient);
         return ResponseEntity.ok(updatedIngredient);
@@ -100,9 +100,15 @@ public class IngredientController {
 
     }
 
+    //DELETE
     //void delete(int id);
-    @DeleteMapping("/ingredients{ingredient}")
-    public ResponseEntity<Ingredient> delete(@PathVariable("ingredient") Ingredient ingredient) {
+    @DeleteMapping("/ingredients/{ingredient}")
+    public ResponseEntity<Ingredient> delete(@PathVariable("ingredient") Integer id) {
+
+        if(ingredientDao.findById(id)!=null){
+            ingredientDao.delete(id);
+            return ResponseEntity.ok().build();
+        }
         return ResponseEntity.noContent().build();
     }
 }
